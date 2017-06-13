@@ -32,6 +32,9 @@ spec:
         scheduler.alpha.kubernetes.io/tolerations: '[{"key":"CriticalAddonsOnly", "operator":"Exists"}]'
     spec:
       serviceAccountName: kube-dns-autoscaler
+      tolerations:
+      - key: "node-role.kubernetes.io/master"
+        effect: NoSchedule
       containers:
       - name: autoscaler
         image: gcr.io/google_containers/cluster-proportional-autoscaler-{{Arch}}:1.1.1
@@ -85,6 +88,9 @@ spec:
     spec:
       dnsPolicy: Default  # Don't use cluster DNS.
       serviceAccountName: kube-dns
+      tolerations:
+      - key: "node-role.kubernetes.io/master"
+        effect: NoSchedule
       volumes:
       - name: kube-dns-config
         configMap:
